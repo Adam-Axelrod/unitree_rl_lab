@@ -8,6 +8,12 @@ version = "0.2.1"
 description = "Reinforcement Learning Lab for Unitree Robots."
 dependencies = [
     "argcomplete",
+    # rsl-rl-lib requires tensordict without an upper bound, so pip resolves the newest
+    # release. tensordict ships a compiled _C extension built against a specific torch
+    # ABI; anything past the 0.8.x line is built for a newer torch than the 2.7.0 that
+    # Isaac Sim 5.1 pins, and segfaults on import once Isaac Sim is running (no Python
+    # traceback -- just an access violation from the Kit crash reporter).
+    "tensordict==0.8.3",
 ]
 requires-python = ">=3.10"
 license = { text = "Apache 2.0" }
