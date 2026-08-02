@@ -25,7 +25,7 @@ UNITREE_ROS_DIR = "path/to/unitree_ros"  # Replace with the actual path to your 
 class UnitreeArticulationCfg(ArticulationCfg):
     """Configuration for Unitree articulations."""
 
-    joint_sdk_names: list[str] = None
+    joint_sdk_names: list[str] | None = None
 
     soft_joint_pos_limit_factor = 0.9
 
@@ -92,6 +92,15 @@ class UnitreeUrdfFileCfg(sim_utils.UrdfFileCfg):
 
 """ Configuration for the Unitree robots."""
 
+# fmt: off
+_QUADRUPED_JOINT_SDK_NAMES = [
+    "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
+    "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
+    "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
+    "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint"
+]
+# fmt: on
+
 UNITREE_GO2_CFG = UnitreeArticulationCfg(
     # spawn=UnitreeUrdfFileCfg(
     #     asset_path=f"{UNITREE_ROS_DIR}/robots/go2_description/urdf/go2_description.urdf",
@@ -118,14 +127,7 @@ UNITREE_GO2_CFG = UnitreeArticulationCfg(
             friction=0.01,
         ),
     },
-    # fmt: off
-    joint_sdk_names=[
-        "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
-        "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
-        "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
-        "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint"
-    ],
-    # fmt: on
+    joint_sdk_names=_QUADRUPED_JOINT_SDK_NAMES.copy(),
 )
 
 UNITREE_GO2W_CFG = UnitreeArticulationCfg(
@@ -207,7 +209,7 @@ UNITREE_B2_CFG = UnitreeArticulationCfg(
             friction=0.01,
         ),
     },
-    joint_sdk_names=UNITREE_GO2_CFG.joint_sdk_names.copy(),
+    joint_sdk_names=_QUADRUPED_JOINT_SDK_NAMES.copy(),
 )
 
 UNITREE_H1_CFG = UnitreeArticulationCfg(
