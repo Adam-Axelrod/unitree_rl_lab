@@ -390,6 +390,13 @@ class RobotEnvCfg(ManagerBasedRLEnvCfg):
         self.sim.physics_material = self.scene.terrain.physics_material
         self.sim.physx.gpu_max_rigid_patch_count = 10 * 2**15
 
+        # viewport camera. `viewer.asset_name` defaults to None, and Isaac Lab's cfg merge
+        # refuses to replace a None field (isaaclab/utils/dict.py), so it cannot be set from
+        # the command line -- it has to live here. Everything else on `viewer` (origin_type,
+        # eye, lookat, env_index) stays Hydra-overridable; origin_type still defaults to
+        # "world", so this alone changes nothing.
+        self.viewer.asset_name = "robot"
+
         # update sensor update periods
         # we tick all the sensors based on the smallest update period (physics update period)
         self.scene.contact_forces.update_period = self.sim.dt
